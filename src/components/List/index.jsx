@@ -6,7 +6,8 @@ import  removeSvg from '../../assets/img/remove.svg';
 import  keyGenerator from './../../utilities/keyGenerator'
 
 
-function List ({ items, removeFolder})  {
+function List ({tasks,  items, removeFolder})  {
+
 
 
     return (
@@ -16,7 +17,7 @@ function List ({ items, removeFolder})  {
                <i>
                   {item.icon ? (item.icon) : <Badge color={item.color}/>}
                </i>
-               <span>{item.name}</span>
+               <span onClick={tasks}>{item.name}</span>
                <button onClick={() => removeFolder(item.id)} className="btn-remove-item">
                    <img className="list__remove-icon" src={removeSvg} alt="Remove icon"/>
                </button>

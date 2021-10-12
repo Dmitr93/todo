@@ -1,13 +1,14 @@
 import './AddButtonList.scss'
 import React, { useState } from 'react';
 import  Badge from '../Badge';
+import  {colors}  from './../../utilities/colors';
 import  closeSvg from '../../assets/img/close.svg';
 import {connect} from "react-redux";
 import {addFolder} from "../../store/actions/todo-folder";
 
 
 
-const AddList = ({colors, addFolder}) => {
+const AddList = ({addFolder}) => {
     const [visiblePopup, setVisiblePopup] = useState(false);
    const [selectedColor, setSelectedColor] = useState(colors[0].id);
    const [inputValue, setInputValue] = useState('');
@@ -72,12 +73,8 @@ const AddList = ({colors, addFolder}) => {
 };
 
 
-const mapStateToProps = (state) => ({
-    colors: state.todo.colors
-});
-
 const mapDispatchToProps = (dispatch) => ({
     addFolder: (folderName) => dispatch(addFolder(folderName)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddList);
+export default connect(null, mapDispatchToProps)(AddList);
