@@ -1,45 +1,47 @@
-import React, {useState} from 'react';
+import React from 'react';
 import List from './components/List';
 import listSvg from './assets/img/list.svg';
 import AddList from './components/AddList';
-import DB from './assets/DB.json';
+import {connect} from "react-redux";
+import {addFolder, removeFolder} from "./store/actions/todo-folder";
 
 
 
-function App() {
-const  [lists, setLists] = useState(DB.lists.map(item => {
-  item.color = DB.colors.filter(
-      color => color.id === item.colorId)[0].name;
-  console.log(item);
-  return item;
-}));
+function App({foldersList, removeFolder}) {
 
-const onAddList = (obj) => {
-  const newList = [...lists, obj];
-  setLists(newList)
-};
+    const lists = (foldersList.todo.folders.map(item => {
+      item.color = foldersList.todo.colors.filter(
+          color => color.id === item.colorId)[0].name;
+      return item;
+    }));
+
   return (
     <div className='todo'>
       <aside className="todo__sidebar">
-        {/*<List items={[*/}
-        {/*  {*/}
-        {/*    icon: <img src={listSvg} alt="List icon" />,*/}
-        {/*    name: 'Все задачи',*/}
-        {/*  },*/}
-        {/*]}*/}
-        {/*/>*/}
+
         <div className="allLists">
+
            <img src={listSvg} alt="List icon"/>
           <span>
             Все задачи
           </span>
-        </div>
 
-        <List items={lists} isRemovable />
-        <AddList onAdd={onAddList} colors={DB.colors} />
+        </div>
+        <List items={lists}  removeFolder={removeFolder} />
+        <AddList  />
+
       </aside>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  foldersList: state,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    removeFolder: (id) => dispatch(removeFolder(id))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps) (App);

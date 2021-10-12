@@ -1,17 +1,18 @@
-import List from '../List';
 import './AddButtonList.scss'
 import React, { useState } from 'react';
 import  Badge from '../Badge';
 import  closeSvg from '../../assets/img/close.svg';
+import {connect} from "react-redux";
+import {addFolder} from "../../store/actions/todo-folder";
 
 
 
-const AddList = ({colors, onAdd}) => {
-   const [visiblePopup, setVisiblePopup] = useState(false);
+const AddList = ({colors, addFolder}) => {
+    const [visiblePopup, setVisiblePopup] = useState(false);
    const [selectedColor, setSelectedColor] = useState(colors[0].id);
    const [inputValue, setInputValue] = useState('');
 
-    const onClose = () => {
+   const onClose = () => {
         setVisiblePopup(false);
         setInputValue('');
         setSelectedColor(colors[0].id);
@@ -21,10 +22,9 @@ const AddList = ({colors, onAdd}) => {
            alert('Введите название списка');
            return;
        }
-       const color = colors.filter(c => c.id === selectedColor) [0].name;
-       onAdd({ "id": Math.random(), "name": inputValue, color });
+       const color = colors.filter(c => c.id === selectedColor)[0].name;
+       addFolder({name: inputValue, colorId: selectedColor, color: color});
        onClose();
-
    };
 
 
@@ -70,4 +70,14 @@ const AddList = ({colors, onAdd}) => {
       </div>
    );
 };
-export default AddList;
+
+
+const mapStateToProps = (state) => ({
+    colors: state.todo.colors
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    addFolder: (folderName) => dispatch(addFolder(folderName)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddList);

@@ -8,6 +8,9 @@
 
 .list {
    margin-bottom: 40px;
+   height: 280px;
+   overflow: auto;
+
 
    &__add-button {
       opacity: 0.5;
@@ -24,6 +27,10 @@
 
       &:hover  {
          background: rgba(255, 255, 255, 0.45);
+         .btn-remove-item{
+            background: rgba(255, 255, 255, 0.45);
+
+         }
       }
 
       &.active {
@@ -41,4 +48,15 @@
          display: inline-flex;
       }
    }
+}
+
+.btn-remove-item{
+   cursor: pointer;
+   width: 14px;
+   height: 14px;
+   padding: 0px;
+   border: none;
+   border-radius: 2px;
+   margin: 0px 5px;
+   background-color: #f4f6f8;
 }
