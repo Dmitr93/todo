@@ -59,10 +59,10 @@ const AddList = ({addFolder}) => {
                <div className="add-list__popup-colors">
                    {colors.map(color => (
                        <Badge
-                              onClick={() => setSelectedColor(color.id)}
-                              key={color.id}
-                              color={color.name}
-                              className={selectedColor===color.id && 'active'}
+                           onClick={() => setSelectedColor(color.id)}
+                           key={color.id}
+                           color={color.name}
+                           className={selectedColor===color.id && 'active'}
                        />
                    ))}
                </div>
