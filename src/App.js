@@ -15,25 +15,22 @@ import editingSvg from "./assets/img/pencil.svg";
 
 function App({tasksList, foldersList, removeFolder, addTask, removeTask}) {
 
-    const [inputValue, setInputValue] = useState('');
-    const [taskIdName, setTaskIdName] = useState('');
+    const [inputTaskValue, setInputTaskValue] = useState('');
+    const [folderIdName, setFolderIdName] = useState('');
 
     const onClose = () => {
-        setInputValue('');
+        setInputTaskValue('');
     };
     const  addTaskFunc = () => {
 
-        if (!inputValue){
+        if (!inputTaskValue){
             alert('Введите задачу');
             return;
         }
-        addTask({text: inputValue, listId: taskIdName.id,});
+        addTask({text: inputTaskValue, listId: folderIdName.id,});
         onClose();
     };
 
-    const getIdName = (name, id) => {
-        setTaskIdName({name: name, id: id});
-    };
 
     const lists = (foldersList.folders.map(item => {
       item.color = colors.filter(
@@ -41,7 +38,7 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask}) {
       return item;
     }));
 
-    console.log(tasksList);
+    console.log(folderIdName);
 
 
     return (
@@ -54,20 +51,20 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask}) {
             Все задачи
           </span>
         </div>
-        <List addTaskFunc={getIdName} items={lists}  removeFolder={removeFolder} />
+        <List setFolderIdName={setFolderIdName} items={lists} removeFolder={removeFolder} />
         <AddList/>
       </aside>
-        {taskIdName &&
+        {folderIdName ?
             <div className="tasks">
                 <div className="tasks__title">
-                    <h3 >{taskIdName.name}</h3>
+                    <h3 >{folderIdName.name}</h3>
                     <button className="tasks__editing-folder">
                         <img src={editingSvg} alt="pencil"/>
                     </button>
                 </div>
                 <ul className="tasks__list">
                     {tasksList.tasks.map(item  => (
-                        (item.listId === taskIdName.id)&&
+                        (item.listId === folderIdName.id)&&
                         <li className="tasks__item" key={keyGenerator()}>
                             <span>{item.text}</span>
                             <button onClick={() => removeTask(item.id)} className="tasks__btn-remove-item">
@@ -76,9 +73,10 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask}) {
                         </li>
                      ))}
                 </ul>
-                <input className="tasks__input" type="text" placeholder="Текст задачи" value ={inputValue} onChange={ e => setInputValue(e.target.value)}/>
+                <input className="tasks__input" type="text" placeholder="Текст задачи" value ={inputTaskValue} onChange={ e => setInputTaskValue(e.target.value)}/>
                 <button className="tasks__add-task-btn" onClick={addTaskFunc}>Добавить задачу</button>
-            </div>
+            </div> :
+            <h3 className="tasks__void">Задачи отсутсвуют</h3>
         }
     </div>
   );

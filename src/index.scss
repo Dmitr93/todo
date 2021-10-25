@@ -61,6 +61,14 @@
   padding: 15px;
 }
 
+.tasks__void{
+  display: flex;
+  align-items: center;
+  color: #C9D1D3;
+  font-size: 32px;
+  margin: 0 auto;
+}
+
 .tasks__title{
   display: flex;
   align-items: center;
@@ -77,6 +85,7 @@
   height: 20px;
   border: none;
   background: white;
+  cursor: pointer;
 }
 
 .tasks__list{

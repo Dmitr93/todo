@@ -28,7 +28,8 @@ export default function Todo(state = initialState, action) {
 
         case REMOVE_FOLDER:
             const removeFolder = state.folders.filter(el=> el.id !== action.payload);
-            return {...state, folders: removeFolder};
+            const removeTaskInFolder = state.tasks.filter(el=> el.listId !== action.payload);
+            return {...state, folders: removeFolder, tasks: removeTaskInFolder};
 
         case ADD_TASK:
             const { tasks } = {...state};

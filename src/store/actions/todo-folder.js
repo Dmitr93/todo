@@ -1,4 +1,4 @@
-import {ADD_FOLDER, REMOVE_FOLDER, ADD_TASK, REMOVE_TASK} from "../constants";
+import {ADD_FOLDER, REMOVE_FOLDER, ADD_TASK, REMOVE_TASK, EDITING_FOLDER} from "../constants";
 
 export function addFolder(folderName) {
     return {
@@ -24,6 +24,12 @@ export function addTask(taskName) {
 export function removeTask(id) {
     return {
         type: REMOVE_TASK,
+        payload: id
+    }
+}
+export function editingFolder(id) {
+    return {
+        type: EDITING_FOLDER,
         payload: id
     }
 }
