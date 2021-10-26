@@ -59,6 +59,8 @@
 .tasks{
   width: 480px  ;
   padding: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 .tasks__void{
@@ -71,8 +73,9 @@
 
 .tasks__title{
   display: flex;
-  align-items: center;
   border-bottom: 2px solid #F2F2F2;
+  word-break: break-all;
+  flex-direction: column;
   h3{
     font-size: 32px;
     color: darkgrey;
@@ -86,6 +89,7 @@
   border: none;
   background: white;
   cursor: pointer;
+  margin: 0px 15px;
 }
 
 .tasks__list{
@@ -98,6 +102,7 @@
 
 .tasks__item{
   padding: 5px 0px;
+  word-break: break-all;
 }
 
 .tasks__input{

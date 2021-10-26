@@ -76,11 +76,12 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask, editing
         {displayNameFolder() ?
             <div className="tasks">
                 <div className="tasks__title">
-                    <h3 >{displayNameFolder()}</h3>
+                    <h3 >{displayNameFolder()}
+                        <button onClick={() => setEditingNameFolder(true)} className="tasks__editing-folder">
+                            <img src={editingSvg} alt="pencil"/>
+                        </button>
+                    </h3>
 
-                    <button onClick={() => setEditingNameFolder(true)} className="tasks__editing-folder">
-                        <img src={editingSvg} alt="pencil"/>
-                    </button>
 
                     {editingNameFolder &&
                         <div className="editing-folder">
@@ -106,9 +107,10 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask, editing
                         </li>
                      ))}
                 </ul>
-
-                <input className="tasks__input" type="text" placeholder="Текст задачи" value ={inputTaskValue} onChange={ e => setInputTaskValue(e.target.value)}/>
-                <button className="tasks__add-task-btn" onClick={addTaskFunc}>Добавить задачу</button>
+                <div>
+                    <input className="tasks__input" type="text" placeholder="Текст задачи" value ={inputTaskValue} onChange={ e => setInputTaskValue(e.target.value)}/>
+                    <button className="tasks__add-task-btn" onClick={addTaskFunc}>Добавить задачу</button>
+                </div>
             </div> :
             <h3 className="tasks__void">Задачи отсутсвуют</h3>
         }
