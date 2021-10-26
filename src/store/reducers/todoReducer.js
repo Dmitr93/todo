@@ -1,4 +1,4 @@
-import {ADD_FOLDER, ADD_TASK, REMOVE_FOLDER, REMOVE_TASK} from "../constants";
+import {ADD_FOLDER, ADD_TASK, EDITING_FOLDER, REMOVE_FOLDER, REMOVE_TASK} from "../constants";
 import  keyGenerator from './../../utilities/keyGenerator';
 
 
@@ -30,6 +30,16 @@ export default function Todo(state = initialState, action) {
             const removeFolder = state.folders.filter(el=> el.id !== action.payload);
             const removeTaskInFolder = state.tasks.filter(el=> el.listId !== action.payload);
             return {...state, folders: removeFolder, tasks: removeTaskInFolder};
+
+        case EDITING_FOLDER:
+            const editingFolder = state.folders.map( el => {
+                if (el.id === action.payload.id) {
+                    (el.name = action.payload.name)
+                }
+                return el
+            });
+            return {...state, folders: editingFolder};
+
 
         case ADD_TASK:
             const { tasks } = {...state};

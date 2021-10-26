@@ -4,7 +4,7 @@ import  {colors}  from './utilities/colors';
 import listSvg from './assets/img/list.svg';
 import AddList from './components/AddList';
 import {connect} from "react-redux";
-import {removeFolder, addTask, removeTask} from "./store/actions/todo-folder";
+import {removeFolder, addTask, removeTask, editingFolder} from "./store/actions/todo-folder";
 import keyGenerator from "./utilities/keyGenerator";
 import removeSvg from "./assets/img/remove.svg";
 import editingSvg from "./assets/img/pencil.svg";
@@ -13,22 +13,38 @@ import editingSvg from "./assets/img/pencil.svg";
 
 
 
-function App({tasksList, foldersList, removeFolder, addTask, removeTask}) {
+function App({tasksList, foldersList, removeFolder, addTask, removeTask, editingFolder}) {
 
     const [inputTaskValue, setInputTaskValue] = useState('');
     const [folderIdName, setFolderIdName] = useState('');
+    const [editingNameFolder, setEditingNameFolder] = useState(false);
+    const [inputEditingValue, setInputEditingValue] = useState('');
+
+
 
     const onClose = () => {
         setInputTaskValue('');
-    };
-    const  addTaskFunc = () => {
+        setEditingNameFolder(false);
 
+    };
+
+    const  addTaskFunc = () => {
         if (!inputTaskValue){
             alert('Введите задачу');
             return;
         }
         addTask({text: inputTaskValue, listId: folderIdName.id,});
         onClose();
+    };
+
+    const  editingList = () => {
+        if (!inputEditingValue){
+            alert('Введите новое название списка');
+            return;
+        }
+        editingFolder({name: inputEditingValue, id: folderIdName.id });
+        setInputEditingValue('');
+        onClose()
     };
 
 
@@ -38,7 +54,19 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask}) {
       return item;
     }));
 
-    console.log(folderIdName);
+
+    const displayNameFolder = () => {
+        let  nameFolder = '';
+        foldersList.folders.filter( el => {
+            if (el.id === folderIdName.id) {
+                nameFolder = el.name
+            }
+            return nameFolder
+        });
+        return nameFolder
+    };
+
+
 
 
     return (
@@ -57,10 +85,23 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask}) {
         {folderIdName ?
             <div className="tasks">
                 <div className="tasks__title">
-                    <h3 >{folderIdName.name}</h3>
-                    <button className="tasks__editing-folder">
+                    <h3 >{displayNameFolder()}</h3>
+                    <button onClick={() => setEditingNameFolder(true)} className="tasks__editing-folder">
                         <img src={editingSvg} alt="pencil"/>
                     </button>
+                    {editingNameFolder &&
+                        <div className="editing-folder">
+                            <input value ={inputEditingValue}
+                                   onChange={ e => setInputEditingValue(e.target.value)}
+                                   placeholder="Новое название папки"
+                                   type="text"
+                                   className="editing-folder__input" />
+                            <button className="editing-folder__btn" onClick={() => editingList()}>Применить</button>
+                            <button className="editing-folder__btn" onClick={() => onClose()}>Закрыть</button>
+                        </div>
+
+                      }
+
                 </div>
                 <ul className="tasks__list">
                     {tasksList.tasks.map(item  => (
@@ -90,6 +131,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     removeFolder: (id) => dispatch(removeFolder(id)),
+    editingFolder: (id) => dispatch(editingFolder(id)),
     addTask: (taskName) => dispatch(addTask(taskName)),
     removeTask: (id) => dispatch(removeTask(id)),
 
