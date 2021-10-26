@@ -25,7 +25,6 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask, editing
     const onClose = () => {
         setInputTaskValue('');
         setEditingNameFolder(false);
-
     };
 
     const  addTaskFunc = () => {
@@ -82,7 +81,7 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask, editing
         <List setFolderIdName={setFolderIdName} items={lists} removeFolder={removeFolder} />
         <AddList/>
       </aside>
-        {folderIdName ?
+        {displayNameFolder() ?
             <div className="tasks">
                 <div className="tasks__title">
                     <h3 >{displayNameFolder()}</h3>
@@ -99,7 +98,6 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask, editing
                             <button className="editing-folder__btn" onClick={() => editingList()}>Применить</button>
                             <button className="editing-folder__btn" onClick={() => onClose()}>Закрыть</button>
                         </div>
-
                       }
 
                 </div>
