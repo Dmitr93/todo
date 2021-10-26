@@ -27,9 +27,9 @@ export function removeTask(id) {
         payload: id
     }
 }
-export function editingFolder(id) {
+export function editingFolder(infoFolder) {
     return {
         type: EDITING_FOLDER,
-        payload: id
+        payload: infoFolder
     }
 }

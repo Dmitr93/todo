@@ -10,16 +10,12 @@ import removeSvg from "./assets/img/remove.svg";
 import editingSvg from "./assets/img/pencil.svg";
 
 
-
-
-
 function App({tasksList, foldersList, removeFolder, addTask, removeTask, editingFolder}) {
 
     const [inputTaskValue, setInputTaskValue] = useState('');
     const [folderIdName, setFolderIdName] = useState('');
     const [editingNameFolder, setEditingNameFolder] = useState(false);
     const [inputEditingValue, setInputEditingValue] = useState('');
-
 
 
     const onClose = () => {
@@ -46,13 +42,11 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask, editing
         onClose()
     };
 
-
     const lists = (foldersList.folders.map(item => {
       item.color = colors.filter(
           color => color.id === item.colorId)[0].name;
       return item;
     }));
-
 
     const displayNameFolder = () => {
         let  nameFolder = '';
@@ -66,12 +60,9 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask, editing
     };
 
 
-
-
     return (
     <div className='todo'>
       <aside className="todo__sidebar">
-
         <div className="all-lists">
            <img src={listSvg} alt="List icon"/>
           <span>
@@ -81,13 +72,16 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask, editing
         <List setFolderIdName={setFolderIdName} items={lists} removeFolder={removeFolder} />
         <AddList/>
       </aside>
+
         {displayNameFolder() ?
             <div className="tasks">
                 <div className="tasks__title">
                     <h3 >{displayNameFolder()}</h3>
+
                     <button onClick={() => setEditingNameFolder(true)} className="tasks__editing-folder">
                         <img src={editingSvg} alt="pencil"/>
                     </button>
+
                     {editingNameFolder &&
                         <div className="editing-folder">
                             <input value ={inputEditingValue}
@@ -95,12 +89,12 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask, editing
                                    placeholder="Новое название папки"
                                    type="text"
                                    className="editing-folder__input" />
+
                             <button className="editing-folder__btn" onClick={() => editingList()}>Применить</button>
                             <button className="editing-folder__btn" onClick={() => onClose()}>Закрыть</button>
-                        </div>
-                      }
-
+                        </div>}
                 </div>
+
                 <ul className="tasks__list">
                     {tasksList.tasks.map(item  => (
                         (item.listId === folderIdName.id)&&
@@ -112,6 +106,7 @@ function App({tasksList, foldersList, removeFolder, addTask, removeTask, editing
                         </li>
                      ))}
                 </ul>
+
                 <input className="tasks__input" type="text" placeholder="Текст задачи" value ={inputTaskValue} onChange={ e => setInputTaskValue(e.target.value)}/>
                 <button className="tasks__add-task-btn" onClick={addTaskFunc}>Добавить задачу</button>
             </div> :
@@ -129,7 +124,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     removeFolder: (id) => dispatch(removeFolder(id)),
-    editingFolder: (id) => dispatch(editingFolder(id)),
+    editingFolder: (infoFolder) => dispatch(editingFolder(infoFolder)),
     addTask: (taskName) => dispatch(addTask(taskName)),
     removeTask: (id) => dispatch(removeTask(id)),
 
