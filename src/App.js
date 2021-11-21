@@ -21,6 +21,7 @@ function App({
   const [folderIdName, setFolderIdName] = useState('');
   const [editingNameFolder, setEditingNameFolder] = useState(false);
   const [inputEditingValue, setInputEditingValue] = useState('');
+  const [notificationTask, setNotificationTask] = useState(false);
 
   const onClose = () => {
     setInputTaskValue('');
@@ -30,11 +31,11 @@ function App({
   const addTaskFunc = () => {
     // const text = 'Введите задачу';
     if (!inputTaskValue) {
-      // TODO: Заеменить костыльный алерт на нормальное ui уведомление ( компонент с уведмлениями )
-      alert('Введите задачу');
-
+      setNotificationTask(true);
       return;
     }
+
+    setNotificationTask(false);
     handlerAddTask({ text: inputTaskValue, listId: folderIdName.id });
     onClose();
   };
@@ -124,6 +125,11 @@ function App({
                         )
               ))}
             </ul>
+
+            {notificationTask
+            && (
+              <Notification text='Введите названиезадачи' />
+            )}
 
             <div>
               <input

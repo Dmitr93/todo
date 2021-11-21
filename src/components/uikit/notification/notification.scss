@@ -1,6 +1,15 @@
 .notification{
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 400px;
-  height: 200px;
+  height: 100px;
   background: pink;
+  z-index: 50;
+  position: absolute;
+  top: -35%;
+  border-radius: 8px;
+  color: darkgrey;
+  font-size: 32px;
 }
