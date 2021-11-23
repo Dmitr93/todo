@@ -1,13 +1,17 @@
 import React from 'react';
 import './notification.scss';
+import PropTypes from 'prop-types';
 
-function Notification() {
-  // console.log(text);
+function Notification({ text }) {
   return (
     <div className="notification">
-      <span>dsdfvs</span>
+      <span>{text}</span>
     </div>
   );
 }
+//
+Notification.propTypes = {
+  text: PropTypes.string.isRequired,
+};
 
 export default Notification;

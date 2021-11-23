@@ -1,12 +1,13 @@
 import './AddButtonList.scss';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Badge from '../Badge';
 import { colors } from '../../utilities/colors';
 import closeSvg from '../../assets/img/close.svg';
 import { addFolder } from '../../store/actions/todo-folder';
 
-const AddList = ({ addFolder }) => {
+const AddList = ({ addFolder, setVisibleNotification, setNotificationText }) => {
   const [visiblePopup, setVisiblePopup] = useState(false);
   const [selectedColor, setSelectedColor] = useState(colors[0].id);
   const [inputValue, setInputValue] = useState('');
@@ -18,10 +19,12 @@ const AddList = ({ addFolder }) => {
   };
   const addList = () => {
     if (!inputValue) {
-      // TODO: Заеменить костыльный алерт на нормальное ui уведомление ( компонент с уведмлениями )
-      alert('Введите название списка');
+      setVisibleNotification(true);
+      setNotificationText('Введите название списка');
       return;
     }
+
+    setVisibleNotification(false);
     const color = colors.filter((c) => c.id === selectedColor)[0].name;
     addFolder({ name: inputValue, colorId: selectedColor, color });
     onClose();
@@ -71,6 +74,12 @@ const AddList = ({ addFolder }) => {
       )}
     </div>
   );
+};
+
+AddList.propTypes = {
+  addFolder: PropTypes.func.isRequired,
+  setVisibleNotification: PropTypes.func.isRequired,
+  setNotificationText: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

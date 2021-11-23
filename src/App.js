@@ -21,7 +21,8 @@ function App({
   const [folderIdName, setFolderIdName] = useState('');
   const [editingNameFolder, setEditingNameFolder] = useState(false);
   const [inputEditingValue, setInputEditingValue] = useState('');
-  const [notificationTask, setNotificationTask] = useState(false);
+  const [visibleNotification, setVisibleNotification] = useState(false);
+  const [notificationText, setNotificationText] = useState('');
 
   const onClose = () => {
     setInputTaskValue('');
@@ -29,22 +30,25 @@ function App({
   };
 
   const addTaskFunc = () => {
-    // const text = 'Введите задачу';
     if (!inputTaskValue) {
-      setNotificationTask(true);
+      setVisibleNotification(true);
+      setNotificationText('Введите название задачи');
       return;
     }
 
-    setNotificationTask(false);
+    setVisibleNotification(false);
     handlerAddTask({ text: inputTaskValue, listId: folderIdName.id });
     onClose();
   };
 
   const editingList = () => {
     if (!inputEditingValue) {
-      alert('Введите новое название списка');
+      setVisibleNotification(true);
+      setNotificationText('Введите новое название списка');
       return;
     }
+
+    setVisibleNotification(false);
     handlerEditingFolder({ name: inputEditingValue, id: folderIdName.id });
     setInputEditingValue('');
     onClose();
@@ -66,85 +70,89 @@ function App({
   };
 
   return (
-    <div className="todo">
-      <aside className="todo__sidebar">
-        <div className="all-lists">
-          <img src={listSvg} alt="List icon" />
-          <span>
-            Все задачи
-          </span>
-        </div>
-        <List
-          setFolderIdName={setFolderIdName}
-          items={lists}
-          removeFolder={handlerRemoveFolder}
-          handlerRemoveAllTaskInFolder={handlerRemoveAllTaskInFolder}
-        />
-        <AddList />
-      </aside>
-
-      {displayNameFolder()
-        ? (
-          <div className="tasks">
-            <div className="tasks__title">
-              <h3>
-                {displayNameFolder()}
-                <button type="button" onClick={() => setEditingNameFolder(true)} className="tasks__editing-folder">
-                  <img src={editingSvg} alt="pencil" />
-                </button>
-              </h3>
-
-              {editingNameFolder
-                        && (
-                        <div className="editing-folder">
-                          <input
-                            value={inputEditingValue}
-                            onChange={(e) => setInputEditingValue(e.target.value)}
-                            placeholder="Новое название папки"
-                            type="text"
-                            className="editing-folder__input"
-                          />
-
-                          <button type="button" className="editing-folder__btn" onClick={() => editingList()}>Применить</button>
-                          <button type="button" className="editing-folder__btn" onClick={() => onClose()}>Закрыть</button>
-                        </div>
-                        )}
-
-            </div>
-
-            <ul className="tasks__list">
-              {tasksList.tasks.map((item) => (
-                item.listId === folderIdName.id
-                        && (
-                        <li className="tasks__item" key={keyGenerator()}>
-                          <span>{item.text}</span>
-                          <button type="button" onClick={() => handlerRemoveTask(item.id)} className="tasks__btn-remove-item">
-                            <img src={removeSvg} alt="Remove icon" />
-                          </button>
-                        </li>
-                        )
-              ))}
-            </ul>
-
-            {notificationTask
-            && (
-              <Notification text='Введите названиезадачи' />
-            )}
-
-            <div>
-              <input
-                className="tasks__input"
-                type="text"
-                placeholder="Текст задачи"
-                value={inputTaskValue}
-                onChange={(e) => setInputTaskValue(e.target.value)}
-              />
-              <button type="button" className="tasks__add-task-btn" onClick={addTaskFunc}>Добавить задачу</button>
-            </div>
+    <>
+      <div className="todo">
+        <aside className="todo__sidebar">
+          <div className="all-lists">
+            <img src={listSvg} alt="List icon" />
+            <span>
+              Все задачи
+            </span>
           </div>
-        )
-        : <h3 className="tasks__void">Задачи отсутсвуют</h3>}
-    </div>
+          <List
+            setFolderIdName={setFolderIdName}
+            items={lists}
+            removeFolder={handlerRemoveFolder}
+            handlerRemoveAllTaskInFolder={handlerRemoveAllTaskInFolder}
+          />
+          <AddList
+            setVisibleNotification={setVisibleNotification}
+            setNotificationText={setNotificationText}
+          />
+        </aside>
+
+        {displayNameFolder()
+          ? (
+            <div className="tasks">
+              <div className="tasks__title">
+                <h3>
+                  {displayNameFolder()}
+                  <button type="button" onClick={() => setEditingNameFolder(true)} className="tasks__editing-folder">
+                    <img src={editingSvg} alt="pencil" />
+                  </button>
+                </h3>
+
+                {editingNameFolder
+                          && (
+                          <div className="editing-folder">
+                            <input
+                              value={inputEditingValue}
+                              onChange={(e) => setInputEditingValue(e.target.value)}
+                              placeholder="Новое название папки"
+                              type="text"
+                              className="editing-folder__input"
+                            />
+
+                            <button type="button" className="editing-folder__btn" onClick={() => editingList()}>Применить</button>
+                            <button type="button" className="editing-folder__btn" onClick={() => onClose()}>Закрыть</button>
+                          </div>
+                          )}
+
+              </div>
+
+              <ul className="tasks__list">
+                {tasksList.tasks.map((item) => (
+                  item.listId === folderIdName.id
+                          && (
+                          <li className="tasks__item" key={keyGenerator()}>
+                            <span>{item.text}</span>
+                            <button type="button" onClick={() => handlerRemoveTask(item.id)} className="tasks__btn-remove-item">
+                              <img src={removeSvg} alt="Remove icon" />
+                            </button>
+                          </li>
+                          )
+                ))}
+              </ul>
+
+              <div>
+                <input
+                  className="tasks__input"
+                  type="text"
+                  placeholder="Текст задачи"
+                  value={inputTaskValue}
+                  onChange={(e) => setInputTaskValue(e.target.value)}
+                />
+                <button type="button" className="tasks__add-task-btn" onClick={addTaskFunc}>Добавить задачу</button>
+              </div>
+            </div>
+          )
+          : <h3 className="tasks__void">Задачи отсутсвуют</h3>}
+      </div>
+      {visibleNotification
+      && (
+        <Notification text={notificationText} />
+      )}
+    </>
   );
 }
 
