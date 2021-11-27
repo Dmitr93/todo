@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './List.scss';
 import classNames from 'classnames';
+import removeSvg from '@img/remove.svg';
+import keyGenerator from '@utilities/keyGenerator';
 import Badge from '../Badge';
-import removeSvg from '../../assets/img/remove.svg';
-import keyGenerator from '../../utilities/keyGenerator';
 
 // TODO: Без аллиасов для аасетов и утилит?
 
@@ -12,13 +12,14 @@ function List({
   setFolderIdName, items, removeFolder, handlerRemoveAllTaskInFolder,
 }) {
   return (
-    <ul className="list">
+    <div className="list">
       {items.map((item) => (
-        <li
+        <button
+          id="folder"
+          type="button"
           onClick={() => setFolderIdName({ name: item.name, id: item.id })}
           key={keyGenerator()}
-          // TODO: Пояснить откуда берется item.className, в структуре folders в сторе, нет дданного параметра
-          className={classNames(item.className, { active: item.active })}
+          className={classNames({ active: item.active })}
         >
           <i>
             {item.icon ? (item.icon) : <Badge color={item.color} />}
@@ -27,9 +28,9 @@ function List({
           <button type="button" onClick={() => removeFolder(item.id) && handlerRemoveAllTaskInFolder(item.id) && setFolderIdName('')} className="btn-remove-item">
             <img className="list__remove-icon" src={removeSvg} alt="Remove icon" />
           </button>
-        </li>
+        </button>
       ))}
-    </ul>
+    </div>
   );
 }
 

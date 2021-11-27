@@ -2,12 +2,11 @@ import './AddButtonList.scss';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Badge from '../Badge';
-import { colors } from '../../utilities/colors';
-import closeSvg from '../../assets/img/close.svg';
+import colors from '@utilities/colors';
 import { addFolder } from '../../store/actions/todo-folder';
+import Badge from '../Badge';
 
-const AddList = ({ addFolder, setVisibleNotification, setNotificationText }) => {
+const AddList = ({ addFolders, setVisibleNotification, setNotificationText }) => {
   const [visiblePopup, setVisiblePopup] = useState(false);
   const [selectedColor, setSelectedColor] = useState(colors[0].id);
   const [inputValue, setInputValue] = useState('');
@@ -26,13 +25,14 @@ const AddList = ({ addFolder, setVisibleNotification, setNotificationText }) => 
 
     setVisibleNotification(false);
     const color = colors.filter((c) => c.id === selectedColor)[0].name;
-    addFolder({ name: inputValue, colorId: selectedColor, color });
+    addFolders({ name: inputValue, colorId: selectedColor, color });
     onClose();
   };
 
   return (
     <div className="add-list">
       <button
+        type="button"
         className="add-list__btn"
         onClick={() => setVisiblePopup(true)}
       >
@@ -44,12 +44,7 @@ const AddList = ({ addFolder, setVisibleNotification, setNotificationText }) => 
       </button>
       {visiblePopup && (
         <div className="add-list__popup">
-          <img
-            onClick={onClose}
-            src={closeSvg}
-            alt="Close button"
-            className="add-list__popup-close-btn"
-          />
+          <button type="button" onClick={onClose} className="add-list__popup-close-btn"> </button>
           <input
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
@@ -62,14 +57,13 @@ const AddList = ({ addFolder, setVisibleNotification, setNotificationText }) => 
             {colors.map((color) => (
               <Badge
                 onClick={() => setSelectedColor(color.id)}
-               // TODO: Что будет если завтра я добавлю цвет с id 5 а в списке уже будет иметься id 5?
                 key={color.id}
                 color={color.name}
                 className={selectedColor === color.id && 'active'}
               />
             ))}
           </div>
-          <button onClick={addList} className="button">Добавить</button>
+          <button type="button" onClick={addList} className="button">Добавить</button>
         </div>
       )}
     </div>
@@ -77,13 +71,13 @@ const AddList = ({ addFolder, setVisibleNotification, setNotificationText }) => 
 };
 
 AddList.propTypes = {
-  addFolder: PropTypes.func.isRequired,
+  addFolders: PropTypes.func.isRequired,
   setVisibleNotification: PropTypes.func.isRequired,
   setNotificationText: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addFolder: (folderName) => dispatch(addFolder(folderName)),
+  addFolders: (folderName) => dispatch(addFolder(folderName)),
 });
 
 export default connect(null, mapDispatchToProps)(AddList);

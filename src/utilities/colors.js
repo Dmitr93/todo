@@ -1,4 +1,4 @@
-export const colors = [
+export default [
   { id: 1, hex: '#C9D1D3', name: 'grey' },
   { id: 2, hex: '#42B883', name: 'green' },
   { id: 3, hex: '#64C4ED', name: 'blue' },

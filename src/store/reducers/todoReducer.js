@@ -15,28 +15,39 @@ const initialState = {
 
 export default function Todo(state = initialState, action) {
   switch (action.type) {
-    case ADD_FOLDER:
+    case ADD_FOLDER: {
       const { folders } = { ...state };
       const newFolder = {
         id: keyGenerator(),
         ...action.payload,
       };
       folders.push(newFolder);
-      return { ...state, folders };
-
-    case REMOVE_FOLDER:
+      return {
+        ...state,
+        folders,
+      };
+    }
+    case REMOVE_FOLDER: {
       const removeFolder = state.folders.filter((el) => el.id !== action.payload);
-      return { ...state, folders: removeFolder };
-
-    case EDITING_FOLDER:
+      return {
+        ...state,
+        folders: removeFolder,
+      };
+    }
+    case EDITING_FOLDER: {
       const editingFolder = state.folders.map((el) => {
-        if (el.id === action.payload.id) {
-          (el.name = action.payload.name);
-        }
-        return el;
-      });
-      return { ...state, folders: editingFolder };
+        const folder = { ...el };
 
+        if (el.id === action.payload.id) {
+          folder.name = action.payload.name;
+        }
+        return folder;
+      });
+      return {
+        ...state,
+        folders: editingFolder,
+      };
+    }
     default:
       return state;
   }

@@ -7,5 +7,14 @@
   "rules": {
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "react/jsx-filename-extension": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "alias":  [
+        ["@components", "./src/components"],
+        ["@img", "./src/assets/img"],
+        ["@utilities", "./src/utilities"]
+      ]
+    }
   }
 }

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import removeSvg from '@img/remove.svg';
+import editingSvg from '@img/pencil.svg';
+import listSvg from '@img/list.svg';
+
 import List from './components/List';
-import { colors } from './utilities/colors';
+import colors from './utilities/colors';
 import AddList from './components/AddList';
 import Notification from './components/uikit/notification';
 import {
   removeFolder, addTask, removeTask, editingFolder, removeAllTaskInFolder,
 } from './store/actions/todo-folder';
 import keyGenerator from './utilities/keyGenerator';
-import removeSvg from './assets/img/remove.svg';
-import editingSvg from './assets/img/pencil.svg';
-import listSvg from './assets/img/list.svg';
 
 function App({
   tasksList, foldersList, handlerRemoveFolder, handlerAddTask,
@@ -54,14 +56,14 @@ function App({
     onClose();
   };
 
-  const lists = foldersList.folders.map((item) => {
-    item.color = colors.filter((color) => color.id === item.colorId)[0].name;
-    return item;
-  });
+  const lists = foldersList.folders.map((item) => ({
+    ...item,
+    color: colors.filter((color) => color.id === item.colorId)[0].name,
+  }));
 
   const displayNameFolder = () => {
     let nameFolder = '';
-    for (let i = 0; i < foldersList.folders.length; i++) {
+    for (let i = 0; i < foldersList.folders.length; i += 1) {
       if (foldersList.folders[i].id === folderIdName.id) {
         nameFolder = foldersList.folders[i].name;
       }
