@@ -19,11 +19,14 @@
       }
    }
 
-   li {
+   #folder {
       display: flex;
       align-items: center;
       padding: 10px 12px;
       cursor: pointer;
+      border: none;
+      background-color: #f4f6f8;
+      width: 100%;
 
       &:hover  {
          background: rgba(255, 255, 255, 0.45);
@@ -44,7 +47,7 @@
       }
 
       i {
-         margin-right: 8px;
+         margin-right: 20px;
          display: inline-flex;
       }
    }

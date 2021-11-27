@@ -1,0 +1,15 @@
+.notification{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: 60px;
+  padding: 10px;
+  background: pink;
+  color: darkgrey;
+  font-size: 32px;
+  border-top-left-radius: 8px;
+  transform: translateY(92vh);
+  position: absolute;
+  right: 0;
+}
